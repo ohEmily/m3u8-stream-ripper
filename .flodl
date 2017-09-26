@@ -1,0 +1,13 @@
+#!/bin/bash
+
+flodl() {
+        if [ $# -lt 1 ]; then
+            echo "You forgot to paste in the URL! It should look kinda like:"
+            echo -e "\t$ flodl http://flocasts-vod.videocdn.scaleengine.net/flocasts-vod/play/smil:sestore3/flocasts/recordings/2017/6/3/blahblah.smil/playlist.m3u8"
+            return 1
+        fi 
+
+        output_file=`echo $1 | grep -o '[a-zA-Z0-9_-]*\.smil' | sed 's/.smil/.mkv/'`
+        echo "Downloading... Please wait. File will be called $output_file"
+        ffmpeg -i "$1" -c copy -bsf:a aac_adtstoasc "$output_file" 
+}
